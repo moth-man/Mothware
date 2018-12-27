@@ -1,0 +1,26 @@
+robot wallE = new robot();
+
+motor motA = wallE.lrgMotor(A);
+motor motD = wallE.lrgMotor(D);
+motor motC = wallE.medMotor(C);
+sensor sen1 = wallE.touchSensor(1);
+sensor sen2 = wallE.colorSensor(2);
+
+purpose runIfTouched(){{
+if(sen1.isPressed() == 0){
+	motA.setMotorPower(100);
+	motB.setMotorPower(100);
+}
+else{
+	motC.setMotor(-50)
+}
+}}
+
+purpose rotateIfGreen(){{
+if(sen1.colorDetected(G)){
+	wallE.rotate(motA,motB,361.);
+}
+}}
+
+
+
