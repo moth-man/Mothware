@@ -27,20 +27,23 @@ function fileLex(f){
 
         else if(token === 'motor'){
             console.log("MOTOR")
-            tape.push('M')
+            tape['M'] = token
+            //tape.push('M')
             token = ''
         }
 
-        else if(tape[tape.length-1] === 'M' && token.charAt(token.length-1) === ";"){
+        else if(tape['M'] === 'motor' && token.charAt(token.length-1) === ';'){
+        //else if(tape[tape.length-1] === 'M' && token.charAt(token.length-1) === ";"){
             console.log("MOTOR VARIABLE")
-            tape.pop()
-            tape.push('MV')
+            //tape.push('MV')
+            tape['MV'] = token
             token = ''
         }
 
         else if(token === 'print'){
             console.log("PRINT")
-            tape.push('P')
+            //tape.push('P')
+            tape['P'] = token
             token = ''
         }
 
@@ -50,13 +53,17 @@ function fileLex(f){
 
         else if(token.charAt(token.length-1) === '"' && openQuote === true){
             console.log("STRING")
+            tape['S'] = token
             token = ''
             openQuote = false
-            tape.push('S')
+            //tape.push('S')
         }
-
     }
+    console.log(tape['M'])
+    tape['M'] = "motor2"
+    console.log(tape)
+    console.log(tape.length)
 }
 
 readFile();
-console.log("update")
+
