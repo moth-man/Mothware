@@ -15,28 +15,44 @@ function fileLex(f){
     const contents = fs.readFileSync(f, 'utf8')
     var tape = []
     var token = ''
+    var openQuote = false
 
     for(let j = 0; j < contents.length; j++){
         token += contents[j]
-        token.trim()
         console.log(token)
 
-        if(token === 'motor'){
-            console.log("MOTOR")
-            tape.push['M']
+        if(token === ' ' || token === '\n'){
             token = ''
         }
 
-        else if(tape.pop() === 'M' && token[j-1] === ";"){
+        else if(token === 'motor'){
+            console.log("MOTOR")
+            tape.push('M')
+            token = ''
+        }
+
+        else if(tape[tape.length-1] === 'M' && token.charAt(token.length-1) === ";"){
             console.log("MOTOR VARIABLE")
-            tape.push['MV']
+            tape.pop()
+            tape.push('MV')
             token = ''
         }
 
         else if(token === 'print'){
             console.log("PRINT")
-            tape.push['P']
+            tape.push('P')
             token = ''
+        }
+
+        else if(token === '"' && openQuote === false){
+            openQuote = true
+        }
+
+        else if(token.charAt(token.length-1) === '"' && openQuote === true){
+            console.log("STRING")
+            token = ''
+            openQuote = false
+            tape.push('S')
         }
 
     }
