@@ -59,3 +59,4 @@ function fileLex(f){
 }
 
 readFile();
+console.log("update")
