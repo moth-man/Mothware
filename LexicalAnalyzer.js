@@ -16,6 +16,11 @@ function fileLex(f){
     var tape = []
     var token = ''
     var openQuote = false
+    var m = 0
+    var mv = 0
+    var p = 0
+    var s = 0
+    var sem = 0
 
     for(let j = 0; j < contents.length; j++){
         token += contents[j]
@@ -25,24 +30,29 @@ function fileLex(f){
             token = ''
         }
 
-        else if(token === 'motor'){
-            console.log("MOTOR")
-            tape['M'] = token
-            //tape.push('M')
+        else if(token === ';'){
+            console.log("SEMICOLON")
+            tape['SEM' + sem] = token
+            sem++
             token = ''
         }
 
-        else if(tape['M'] === 'motor' && token.charAt(token.length-1) === ';'){
-        //else if(tape[tape.length-1] === 'M' && token.charAt(token.length-1) === ";"){
+        else if(token === 'motor'){
+            console.log("MOTOR")
+            tape['M' + m] = token
+            m++
+            token = ''
+        }
+
+        else if(tape['M' + (m - 1)] === 'motor' && contents[j+1] === ';'){
             console.log("MOTOR VARIABLE")
-            //tape.push('MV')
-            tape['MV'] = token
+            tape['MV' + mv] = token
+            mv++
             token = ''
         }
 
         else if(token === 'print'){
             console.log("PRINT")
-            //tape.push('P')
             tape['P'] = token
             token = ''
         }
@@ -56,13 +66,11 @@ function fileLex(f){
             tape['S'] = token
             token = ''
             openQuote = false
-            //tape.push('S')
         }
     }
-    console.log(tape['M'])
-    tape['M'] = "motor2"
+
     console.log(tape)
-    console.log(tape.length)
+    console.log(tape.keys.length)
 }
 
 readFile();

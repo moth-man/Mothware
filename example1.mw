@@ -1,3 +1,5 @@
 motor mot1;
 
+motor mot2;
+
 print "My robot.";
