@@ -3,7 +3,6 @@ var file = process.argv[2];
 function readFile(){
     if(file.substr(-3,3) === ".mw"){
         fileLex(file);
-        console.log(file);
     }
     else {
         console.log("ERROR: Incorrect file extension.")
@@ -13,7 +12,7 @@ function readFile(){
 function fileLex(f){
     const fs = require('fs')
     const contents = fs.readFileSync(f, 'utf8')
-    var tape = []
+    var tape = {}
     var token = ''
     var openQuote = false
     var m = 0
@@ -70,7 +69,9 @@ function fileLex(f){
     }
 
     console.log(tape)
-    console.log(tape.keys.length)
+    for(var i in tape){
+        console.log(i + ": " + tape[i])
+    }
 }
 
 readFile();
