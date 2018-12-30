@@ -13,7 +13,6 @@ function readFile(){
 function fileLex(f){
     const fs = require('fs')
     const contents = fs.readFileSync(f, 'utf8')
-    //var endTape = tape[Object.keys(tape)[Object.keys(tape).length-1]]
     var token = ''
     var openQuote = false
     var openBrace = false
@@ -26,9 +25,20 @@ function fileLex(f){
     var lp = 0
     var i = 0
     var iv = 0
+    var ivu = 0
+    var eq = 0
+    var lt = 0
+    var gt = 0
+    var leq = 0
+    var geq = 0
 
     for(let j = 0; j < contents.length; j++){
         token += contents[j]
+        var endTape = tape[Object.keys(tape)[Object.keys(tape).length-1]]
+        var endTape2 = tape[Object.keys(tape)[Object.keys(tape).length-2]]
+        var endTape3 = tape[Object.keys(tape)[Object.keys(tape).length-3]]
+        var endTape4 = tape[Object.keys(tape)[Object.keys(tape).length-4]]
+        var vi = iv - 1
         console.log(token)
 
         if(token === ' ' || token === '\n'){
@@ -97,7 +107,8 @@ function fileLex(f){
             token = ''
         }
 
-        else if(tape[Object.size(tape)-1] === "int"){
+        //ADD REGEX
+        else if(endTape === "int" && contents[j+1] === '='){
             console.log("INTEGER VARIABLE")
             tape['IV' + iv] = token
             iv++
@@ -110,21 +121,56 @@ function fileLex(f){
             eq++
             token = ''
         }
+
+        else if(endTape3 === 'int' && endTape === '=' && contents[j+1] === ';'){
+            console.log("INTEGER VALUE")
+            tape['IVU' + ivu] = token
+            ivu++
+            token = ''
+        }
+
+        else if(token === '<'){
+            console.log("LESS THAN")
+            tape['LT' + lt] = token
+            lt++
+            token = ''
+        }
+
+        else if(token === '>'){
+            console.log("GREATER THAN")
+            tape['GT' + gt] = token
+            gt++
+            token = ''
+        }
+
+        else if(token === '<='){
+            console.log("LESS THAN OR EQUAL TO")
+            tape['LEQ' + leq] = token
+            leq++
+            token = ''
+        }
+
+        else if(token === '>='){
+            console.log("GREATER THAN OR EQUAL TO")
+            tape['GEQ' + geq] = token
+            geq++
+            token = ''
+        }
+
+       //var vi = iv - 1
+       else if(token === tape['IV' + vi]){
+           console.log("REPEAT VARIABLE IV" + vi)
+           token = ''
+       }
     }
 
     console.log(tape)
     console.log("test")
-    var endTape = tape[Object.keys(tape)[Object.keys(tape).length-1]]
-    console.log(endTape)
+    //var vi = "IV" + 3
+    //console.log(vi)
     console.log(Object.size(tape))
     for(var i in tape){
         console.log(i + ": " + tape[i])
-    }
-}
-
-function valueOf(array){
-    for(var n in array){
-        return array[n]
     }
 }
 
