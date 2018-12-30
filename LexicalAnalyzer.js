@@ -1,4 +1,5 @@
 var file = process.argv[2];
+var tape = {}
 
 function readFile(){
     if(file.substr(-3,3) === ".mw"){
@@ -12,9 +13,10 @@ function readFile(){
 function fileLex(f){
     const fs = require('fs')
     const contents = fs.readFileSync(f, 'utf8')
-    var tape = {}
+    //var endTape = tape[Object.keys(tape)[Object.keys(tape).length-1]]
     var token = ''
     var openQuote = false
+    var openBrace = false
     var m = 0
     var mv = 0
     var p = 0
@@ -47,7 +49,8 @@ function fileLex(f){
             token = ''
         }
 
-        else if(tape['M' + (m - 1)] === 'motor' && contents[j+1] === ';'){
+        else if(endTape === 'motor' && contents[j+1] === ';'){
+        //else if(tape['M' + (m - 1)] === 'motor' && contents[j+1] === ';'){
             console.log("MOTOR VARIABLE")
             tape['MV' + mv] = token
             mv++
@@ -110,18 +113,18 @@ function fileLex(f){
     }
 
     console.log(tape)
-    console.log(valueOf())
     console.log("test")
+    var endTape = tape[Object.keys(tape)[Object.keys(tape).length-1]]
+    console.log(endTape)
+    console.log(Object.size(tape))
     for(var i in tape){
         console.log(i + ": " + tape[i])
     }
 }
 
-function valueOf(array,val){
-    for(var count in array){
-        if(count === val){
-            return array[count]
-        }
+function valueOf(array){
+    for(var n in array){
+        return array[n]
     }
 }
 
